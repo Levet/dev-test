@@ -1,4 +1,4 @@
-const supertest = require("supertest");
+const supertest = require("supertest-session");
 const chai = require("chai");
 const app = require("../../index");
 const request = supertest(app);
@@ -153,13 +153,15 @@ describe("Users API Routes", function(){
 
             request.get("/api/user")
                 .expect(200)
-                .end(function(err, res){
+                .end((err, res) =>{
 
                     if(err){
                         return done(err)
                     }
 
-                    assert(res.user, "User returned");
+                    const result = JSON.parse(res.text)
+
+                    assert(result.user, "User Returned");
 
                     done();
 
@@ -177,11 +179,12 @@ describe("Users API Routes", function(){
                         return done(err)
                     }
 
-                    assert(res.user, "User returned");
-                    assert(res.user.password === null, "User's password is not shown");
-                    assert(res.user._id === null, "User's _id is not shown");
-                    assert(res.user.guid === null, "User's guid is not shown");
-                    assert(res.user.isActive === null, "User status is not shown");
+                    const result = JSON.parse(res.text);
+
+                    assert(result.user.password === undefined, "User's password is not shown");
+                    assert(result.user._id === undefined, "User's _id is not shown");
+                    assert(result.user.guid === undefined, "User's guid is not shown");
+                    assert(result.user.isActive === undefined, "User status is not shown");
 
                     done();
 
@@ -198,10 +201,11 @@ describe("Users API Routes", function(){
                         return done(err)
                     }
 
-                    assert(res.user, "User returned");
-                    assert(res.user.balance !== null, "User's balance is shown");
-                    assert(res.user.name.first !== null, "User's first name is shown");
-                    assert(res.user.name.last !== null, "User's last name is shown");
+                    const result = JSON.parse(res.text);
+
+                    assert(result.user.balance !== null, "User's balance is shown");
+                    assert(result.user.name.first !== null, "User's first name is shown");
+                    assert(result.user.name.last !== null, "User's last name is shown");
 
                     done();
                 })
@@ -215,7 +219,7 @@ describe("Users API Routes", function(){
 
             request.put("/api/user")
                 .send({
-                    phone: "+1 (555) 555-5555",
+                    phone: "15555555555",
                     address: "123 Sesame Street",
                     age: "159",
                     company: "Colt Builders",
@@ -223,16 +227,19 @@ describe("Users API Routes", function(){
                 })
                 .expect(httpStatus.ACCEPTED)
                 .end(function(err, res){
+
                     if(err){
                         return done(err)
                     }
 
-                    assert(res.user, "User returned");
-                    assert(res.user.phone === "+1 (555) 555-5555", "User's phone was updated");
-                    assert(res.user.address === "123 Sesame Street", "User's address was updated");
-                    assert(res.user.age === "159", "User's age was updated");
-                    assert(res.user.company === "Colt Builders", "User's company was updated");
-                    assert(res.user.email === "henderson@coltbuilders.com", "User's email was updated");
+                    const result = JSON.parse(res.text);
+
+                    assert(result.user, "User returned");
+                    assert(result.user.phone === "+1 (555) 555-5555", "User's phone was updated");
+                    assert(result.user.address === "123 Sesame Street", "User's address was updated");
+                    assert(result.user.age === "159", "User's age was updated");
+                    assert(result.user.company === "Colt Builders", "User's company was updated");
+                    assert(result.user.email === "henderson@coltbuilders.com", "User's email was updated");
 
                     done();
                 })
