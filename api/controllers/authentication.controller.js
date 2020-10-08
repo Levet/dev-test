@@ -12,6 +12,8 @@ class Authentication {
 
             const result = usersModel.authenticateUser(email, password);
 
+            console.log(result)
+
             if(result){
                 return res.status(httpStatus.ACCEPTED).json({"status": "success"});
             } else {
@@ -25,6 +27,12 @@ class Authentication {
             res.status(httpStatus.INTERNAL_SERVER_ERROR).send()
 
         }
+
+    }
+
+    static logout(req, res){
+
+        res.status(httpStatus.OK).json({"status": "success"});
 
     }
 
