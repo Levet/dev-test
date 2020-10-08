@@ -26,3 +26,12 @@ node_modules
 
 # Users Environment Variables
 .lock-wscript
+
+# I haven't used .lock-wscript. I'm not sure if the syntax is the same. I would suspect so, but, since I'm using the dotenv npm package, I'm going to stick with a standard .env file. Although I can specify a particular file to use.
+.env
+
+# I'm going to exclude package-lock.json. I've ran into a lot of issues with package-lock when using differen't OS. i.e. package-lock from an Ubuntu system does not always jive with windows. Though I've experienced few issues with Ubuntu to Amazon-Linux/Centos
+package-lock.json
+
+# I'm using Intellij, so I'm going to also exclude .idea
+.idea
