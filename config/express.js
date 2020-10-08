@@ -9,6 +9,11 @@ const winston = require("../config/winston");
 const httpStatus = require("http-status");
 const routes = require("../api/routes/index.route");
 
+const { promisify } = require("util");
+const fs = require("fs");
+
+const readFile = promisify(fs.readFile);
+
 const app = express();
 
 app.use(sessions({
@@ -27,11 +32,23 @@ app.use(express.static(path.join(__dirname, "../client")));
 
 app.use("/", routes);
 
-app.use((req, res) => {
+app.use(async (req, res) => {
 
-    //TODO: Add a nice 404 page.
+    try {
 
-    res.status(httpStatus.NOT_FOUND).send();
+        const notFoundHtml = await readFile(path.join(__dirname, "../views/404.html"));
+
+        res.status(httpStatus.NOT_FOUND);
+        res.setHeader("Content-Type", "text/html");
+        res.send(notFoundHtml);
+
+    } catch(err){
+
+        res.status(httpStatus.NOT_FOUND).send();
+
+    }
+
+
 });
 
 module.exports = app;
