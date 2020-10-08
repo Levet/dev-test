@@ -2,14 +2,17 @@ const supertest = require("supertest");
 const chai = require("chai");
 const app = require("../../index");
 const request = supertest(app);
+const httpStatus = require("http-status");
 
 describe("Authentication Routes", function(){
 
     beforeEach(function(done){
 
-        app.db.object = {};
+        app.db.defaults({ users: [] });
 
-        app.db.object.users = [{
+        const usersStore = app.db.get("users");
+
+        usersStore.push([{
             "_id": "5410953eb0e0c0ae25608277",
             "guid": "eab0324c-75ef-49a1-9c49-be2d68f50b96",
             "isActive": true,
@@ -43,9 +46,8 @@ describe("Authentication Routes", function(){
             "password": "_4rhododfj",
             "phone": "+1 (814) 437-3837",
             "address": "261 Willow Street, Whipholt, Louisiana, 2879"
-        }];
+        }]).write();
 
-        app.db.write();
         done();
 
     });
@@ -69,7 +71,7 @@ describe("Authentication Routes", function(){
                     email: "henderson.briggs@geeknet.net",
                     password: "potato"
                 })
-                .expect(401)
+                .expect(httpStatus.UNAUTHORIZED)
                 .end(function(err, res){
                     done(err)
                 })
@@ -84,7 +86,7 @@ describe("Authentication Routes", function(){
                     email: "henderson.briggs@geeknet.net",
                     password: "23derd*334"
                 })
-                .expect(202)
+                .expect(httpStatus.ACCEPTED)
                 .end(function(err, res){
                     done(err)
                 })

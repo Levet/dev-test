@@ -6,6 +6,7 @@ const morgan = require("morgan");
 const express = require("express");
 const bodyParser = require("body-parser");
 const winston = require("../config/winston");
+const config = require("../config/config");
 const httpStatus = require("http-status");
 const routes = require("../api/routes/index.route");
 
@@ -15,6 +16,8 @@ const fs = require("fs");
 const readFile = promisify(fs.readFile);
 
 const app = express();
+
+app.db = config.db;
 
 app.use(sessions({
     cookieName:     "session",
@@ -30,7 +33,7 @@ app.use(bodyParser.json({ limit: "50mb" }));
 app.use(methodOverride());
 app.use(express.static(path.join(__dirname, "../client")));
 
-app.use("/", routes);
+app.use("/api", routes);
 
 app.use(async (req, res) => {
 
