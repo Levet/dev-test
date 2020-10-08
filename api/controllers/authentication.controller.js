@@ -12,14 +12,20 @@ class Authentication {
 
             const result = usersModel.authenticateUser(email, password);
 
-            console.log(result)
+            if(result && result.isActive){
 
-            if(result){
+                req.session = {
+                    authenticated: true,
+                    userId: result.guid
+                };
+
                 return res.status(httpStatus.ACCEPTED).json({"status": "success"});
-            } else {
-                return res.status(httpStatus.UNAUTHORIZED).send();
-            }
 
+            } else {
+
+                return res.status(httpStatus.UNAUTHORIZED).send();
+
+            }
 
         } catch(err){
 
@@ -31,6 +37,8 @@ class Authentication {
     }
 
     static logout(req, res){
+
+        req.session.reset();
 
         res.status(httpStatus.OK).json({"status": "success"});
 
