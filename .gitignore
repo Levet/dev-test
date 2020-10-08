@@ -35,3 +35,6 @@ package-lock.json
 
 # I'm using Intellij, so I'm going to also exclude .idea
 .idea
+
+# Excluding webpack build and source map.
+/client/js/build.*
