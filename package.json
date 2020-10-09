@@ -8,7 +8,8 @@
     "build": "webpack",
     "dev": "webpack && node index.js",
     "prod": "NODE_ENV=production webpack && NODE_ENV=production node index.js",
-    "unit": "mocha ./test/unit/index.js"
+    "unit": "mocha ./test/unit/index.js",
+    "e2e": "npx nightwatch"
   },
   "repository": {
     "type": "git",
