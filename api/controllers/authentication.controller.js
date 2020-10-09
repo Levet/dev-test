@@ -4,6 +4,9 @@ const usersModel = require("../models/users.model");
 
 class Authentication {
 
+
+    //TODO: Password should be hashed with salt and secret, not stored raw.
+
     static login(req, res){
 
         try {
@@ -34,6 +37,12 @@ class Authentication {
 
         }
 
+    }
+
+    static authenticated(req, res){
+        const { authenticated } = req.session;
+
+        res.status(httpStatus.OK).json({"status": "success", authenticated });
     }
 
     static logout(req, res){

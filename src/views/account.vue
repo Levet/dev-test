@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="account">
         <v-app-bar color="blue darken-4" absolute dark>
             <v-toolbar-title>Smart Pump</v-toolbar-title>
             <v-spacer></v-spacer>
@@ -9,7 +9,7 @@
         <v-row>
             <v-col cols="6">
 
-                <v-btn block depressed color="secondary" @click="showBalance = true">
+                <v-btn id="show-balance" block depressed color="secondary" @click="showBalance = true">
                     <v-icon left small>
                         mdi-currency-usd
                     </v-icon>
@@ -17,7 +17,7 @@
                 </v-btn>
             </v-col>
             <v-col cols="6">
-                <v-btn block depressed color="blue-grey" dark @click="showEditAccount = true">
+                <v-btn id="show-edit" block depressed color="blue-grey" dark @click="showEditAccount = true">
                     <v-icon left small>
                         mdi-pencil
                     </v-icon>
@@ -26,9 +26,21 @@
             </v-col>
         </v-row>
 
+        <v-list-item two-line>
+            <v-list-item-content>
+                <v-list-item-title>Car Payment</v-list-item-title>
+                <v-list-item-subtitle class="red--text">-$250.00</v-list-item-subtitle>
+            </v-list-item-content>
+        </v-list-item>
+        <v-list-item two-line>
+            <v-list-item-content>
+                <v-list-item-title>Paycheck</v-list-item-title>
+                <v-list-item-subtitle class="green--text">+$550.00</v-list-item-subtitle>
+            </v-list-item-content>
+        </v-list-item>
 
         <v-dialog v-model="showBalance" max-width="300px">
-            <v-card>
+            <v-card id="balance">
                 <v-card-title>Balance</v-card-title>
                 <v-card-text>
                     <h2 class="text-center">{{user.balance}}</h2>
@@ -36,6 +48,7 @@
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn
+                            id="close-balance"
                             color="red"
                             text
                             @click="showBalance = false"
@@ -46,7 +59,7 @@
             </v-card>
         </v-dialog>
         <v-dialog v-model="showEditAccount" max-width="300px">
-            <v-card>
+            <v-card id="edit">
                 <v-card-title>Edit</v-card-title>
                 <v-card-text>
                     <v-form>
@@ -69,6 +82,7 @@
                         Update User
                     </v-btn>
                     <v-btn
+                            id="close-edit"
                             color="red"
                             text
                             @click="showEditAccount = false"
@@ -159,6 +173,11 @@
             }
         },
         mounted(){
+
+            if(!this.$root.authenticated){
+                return this.$router.push({"path": "/login"})
+            }
+
             this.fetchUser();
         }
     }

@@ -1,10 +1,11 @@
 <template>
-    <div>
+    <div id="login">
 
         <v-img src="/images/logo.png" class="ma-auto" max-width="120px"></v-img>
 
         <v-slide-y-transition>
             <v-alert
+                    id="login-error"
                     v-show="error.show"
                     prominent
                     text
@@ -17,7 +18,7 @@
         <v-form class="loginForm" @submit.prevent="authenticate" ref="authentication" lazy-validation v-model="valid">
 
             <v-text-field id="username" v-model="username" label="Username" required :rules="usernameRules" :error="isUsernameError" :error-messages="usernameError" @keyup="clearUsernameError"></v-text-field>
-            <v-text-field id="password" v-model="password" label="Password" required :rules="passwordRules" :error="isPasswordError" :error-messages="passwordError" @keyup="clearPasswordError"></v-text-field>
+            <v-text-field type="password" id="password" v-model="password" label="Password" required :rules="passwordRules" :error="isPasswordError" :error-messages="passwordError" @keyup="clearPasswordError"></v-text-field>
             <v-btn id="authenticate" type="submit" block large color="primary" :disabled="!valid">Login</v-btn>
         </v-form>
     </div>
