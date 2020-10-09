@@ -2,20 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@3.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 </head>
 <body>
-<div id="app" data-app>
+<div id="app">
     <v-app>
+        <v-container class="fill-height">
+            <v-row class="fill-height">
+                <v-col cols="12">
+                    <v-row
+                            align="center"
+                            justify="center"
+                            class="fill-height"
+                    >
 
-        <v-container>
-            <router-view class="fill-height"></router-view>
+                        <div style="width: 300px" >
+                            <router-view></router-view>
+                        </div>
+                    </v-row>
+                </v-col>
+
+            </v-row>
         </v-container>
-
     </v-app>
 </div>
+
 </body>
 <script src="/js/build.js"></script>
 </html>

@@ -59,8 +59,13 @@ class Users {
 
         usersModel.updateUser(req.user.guid);
 
-        res.status(httpStatus.ACCEPTED).json({"status": "success", "user": req.user})
-        
+        const { balance, picture, age, name, company, email, phone, address } = req.user;
+
+        const user = { balance, picture, age, name, company, email, phone, address };
+
+        res.status(httpStatus.ACCEPTED).json({ "status": "success", user })
+
+
     }
 
 }

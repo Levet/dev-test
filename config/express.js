@@ -26,14 +26,36 @@ app.use(sessions({
     activeDuration: 1000 * 60 * 60 * 3
 }));
 
-app.use(helmet());
+// TODO: Reactivate Helmet for security
+// app.use(helmet());
 app.use(morgan("combined", { stream: winston.stream }));
 app.use(bodyParser.urlencoded({ extended: false, limit: "50mb" }));
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(methodOverride());
 app.use(express.static(path.join(__dirname, "../client")));
 
+
 app.use("/api", routes);
+
+app.use("/", async (req, res) => {
+
+    try {
+
+        const accountHTML = await readFile(path.join(__dirname, "../views/account.html"));
+
+
+        res.setHeader("Content-Type", "text/html");
+        res.status(200);
+        res.send(accountHTML);
+
+    } catch(err){
+
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).send();
+
+    }
+
+
+});
 
 app.use(async (req, res) => {
 
